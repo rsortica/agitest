@@ -1,0 +1,15 @@
+{
+  "name": "agibank_2024",
+  "version": "1.0.0",
+  "description": "Test of application with Cypress, agibank projet.",
+  "main": "index.js",
+  "scripts": {
+    "test:cypress": "cypress open",
+    "test:cypress:run": "cypress run"
+  },
+  "author": "kodcore",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress-xpath": "^2.0.1"
+  }
+}
