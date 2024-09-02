@@ -84,8 +84,5 @@ O arquivo `.github/workflows/cypress.yml` tem a seguinte configuração:
             CYPRESS_baseUrl: https://blogdoagi.com.br/
 
 ## Contribuindo
-Se você deseja contribuir para este projeto, sinta-se à vontade para abrir uma pull request com suas alterações. Por favor, certifique-se de que todos os testes estão passando antes de enviar sua contribuição.
-
-## Suporte
 Se você encontrar problemas ou tiver dúvidas sobre o projeto, abra uma issue no repositório ou entre em contato.
 ___
