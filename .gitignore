@@ -1,9 +1,9 @@
+
 node_modules/
 cypress/fixtures/
 cypress/downloads/
 cypress/screenshots/
 cypress/videos/
-
 
 # Logs
 logs
