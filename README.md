@@ -1,4 +1,4 @@
-# Projeto de Testes Automatizados com Cypress
+# Automação de Testes com Cypress
 
 Este repositório contém testes automatizados para o [blog do Agi](https://blogdoagi.com.br), desenvolvidos utilizando o framework [Cypress](https://www.cypress.io/) para garantir a qualidade e o funcionamento do site. O projeto também está configurado para rodar os testes automaticamente através de GitHub Actions.
 
@@ -37,14 +37,14 @@ Os resultados dos testes serão exibidos no terminal.
 ### Configuração do GitHub Actions
 O projeto está configurado para executar os testes automaticamente em cada push para a branch principal ou em pull requests. Isso é feito através do GitHub Actions.
 
-**Configuração do Workflow**
+### Configuração do Workflow
 O arquivo de configuração do GitHub Actions está localizado em `.github/workflows/cypress.yml`. Este arquivo define o workflow para:
 
-Instalar as dependências do projeto.
-    * Instalar o Cypress.
-    * Executar os testes automatizados.
-    * Workflow de GitHub Actions
+- Instalar as dependências do projeto.
+- Instalar o Cypress.
+- Executar os testes automatizados.
 
-## Contribuindo
-Se você encontrar problemas ou tiver dúvidas sobre o projeto, abra uma issue no repositório ou entre em contato.
+
+## Contribuições
+Se você encontrar problemas ou tiver dúvidas sobre o projeto, entre em contato.
 ___
