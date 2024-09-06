@@ -1,6 +1,6 @@
 # Projeto de Testes Automatizados com Cypress
 
-Este repositório contém testes automatizados para o blog do Agi, utilizando o Cypress para garantir a qualidade e o funcionamento do site. O projeto também está configurado para rodar os testes automaticamente através de GitHub Actions.
+Este repositório contém testes automatizados para o [blog do Agi](https://blogdoagi.com.br), desenvolvidos utilizando o framework [Cypress](https://www.cypress.io/) para garantir a qualidade e o funcionamento do site. O projeto também está configurado para rodar os testes automaticamente através de GitHub Actions.
 
 ## Configuração do Projeto
 
@@ -14,9 +14,7 @@ Certifique-se de ter o Node.js e o npm instalados em sua máquina. Você pode ba
 
 1. **Clone o repositório**
 
-- * Abra o navegador
-- * Acesse a URL https://github.com/rsortica/agitest
-- * Faça um clone do projeto, utilizando o comando:
+- Faça um clone do projeto, utilizando o comando:
 
     >   ```bash
     >   git clone https://github.com/rsortica/agitest.git
