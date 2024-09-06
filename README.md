@@ -47,42 +47,6 @@ Instalar as dependências do projeto.
     * Executar os testes automatizados.
     * Workflow de GitHub Actions
 
-O arquivo `.github/workflows/cypress.yml` tem a seguinte configuração:
-
-> name: Run Cypress Tests
-
-    on:
-    push:
-        branches:
-        - main
-    pull_request:
-        branches:
-        - main
-
-    jobs:
-    cypress-tests:
-        runs-on: ubuntu-latest
-
-        steps:
-        - name: Checkout code
-        uses: actions/checkout@v3
-
-        - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-            node-version: '16'
-
-        - name: Install dependencies
-        run: npm install
-
-        - name: Install Cypress
-        run: npm install cypress
-
-        - name: Run Cypress tests
-        run: npx cypress run
-        env:
-            CYPRESS_baseUrl: https://blogdoagi.com.br/
-
 ## Contribuindo
 Se você encontrar problemas ou tiver dúvidas sobre o projeto, abra uma issue no repositório ou entre em contato.
 ___
