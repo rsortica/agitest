@@ -70,7 +70,7 @@ O arquivo `.github/workflows/cypress.yml` tem a seguinte configuração:
         - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-            node-version: '16'
+            node-version: '22'
 
         - name: Install dependencies
         run: npm install

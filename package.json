@@ -10,6 +10,7 @@
   "author": "kodcore",
   "license": "ISC",
   "devDependencies": {
+    "cypress": "^14.0.2",
     "cypress-xpath": "^2.0.1"
   }
 }
