@@ -1,50 +1,73 @@
-# Automação de Testes com Cypress
+# Testes Web - Blog do Agi
 
-Este repositório contém testes automatizados para o [blog do Agi](https://blogdoagi.com.br), desenvolvidos utilizando o framework [Cypress](https://www.cypress.io/) para garantir a qualidade e o funcionamento do site. O projeto também está configurado para rodar os testes automaticamente através de GitHub Actions.
+Automacao de testes da busca do Blog do Agi com Java, Selenium, TestNG e Allure.
 
-## Configuração do Projeto
+## Stack
 
-Siga as instruções abaixo para configurar e executar o projeto localmente.
+- Java 11+
+- Maven 3.8+
+- Selenium 4.18
+- WebDriverManager 5.7
+- TestNG 7.9
+- Allure 2.25
 
-### Pré-requisitos
+## Estrutura
 
-Certifique-se de ter o Node.js e o npm instalados em sua máquina. Você pode baixar e instalar o Node.js [aqui](https://nodejs.org/).
+```text
+web-tests/
+|-- src/
+|   |-- main/java/com/agibank/
+|   |   |-- pages/
+|   |   |   |-- BasePage.java
+|   |   |   |-- HomePage.java
+|   |   |   `-- SearchResultsPage.java
+|   |   `-- utils/
+|   |       `-- DriverFactory.java
+|   `-- test/
+|       |-- java/com/agibank/
+|       |   |-- BaseTest.java
+|       |   |-- BlogSearchTest.java
+|       |   `-- utils/ScreenshotUtil.java
+|       `-- resources/testng.xml
+`-- pom.xml
+```
 
-### Passos para Configuração
+## Como executar
 
-1. **Clone o repositório**
+Execucao padrao:
 
-- Faça um clone do projeto, utilizando o comando:
+```bash
+mvn test
+```
 
-    >   ```bash
-    >   git clone https://github.com/rsortica/agitest.git
+Execucao com interface grafica:
 
+```bash
+mvn test -Dheadless=false
+```
 
-2. **Instalação as dependências** 🌲
+Executar um teste especifico:
 
-1. Na raiz do projeto, execute o comando `npm install cypress --save-dev`
-2. Logo após, execute o comando `npx cypress open` para abrir o Cypress
-3. Por fim, com o _Test Runner_ aberto, execute o teste em modo interativo.
-4. Pronto!
+```bash
+mvn test -Dtest=BlogSearchTest#CT01_buscaComTermoValido_deveRetornarResultados
+```
 
-Obs.: 
-Para executar os testes no modo headless (sem interface gráfica), execute o comando:
+## Allure
 
-> npx cypress run
+Gerar relatorio:
 
-Os resultados dos testes serão exibidos no terminal.
+```bash
+mvn allure:serve
+```
 
-### Configuração do GitHub Actions
-O projeto está configurado para executar os testes automaticamente em cada push para a branch principal ou em pull requests. Isso é feito através do GitHub Actions.
+Ou:
 
-### Configuração do Workflow
-O arquivo de configuração do GitHub Actions está localizado em `.github/workflows/cypress.yml`. Este arquivo define o workflow para:
+```bash
+mvn allure:report
+```
 
-- Instalar as dependências do projeto.
-- Instalar o Cypress.
-- Executar os testes automatizados.
+## Observacoes
 
-
-## Contribuições
-Se você encontrar problemas ou tiver dúvidas sobre o projeto, entre em contato.
-___
+- O blog atual responde em `https://blog.agibank.com.br/`.
+- O ChromeDriver e resolvido automaticamente pelo WebDriverManager.
+- O projeto hoje nao possui workflow de GitHub Actions versionado neste repositorio.
