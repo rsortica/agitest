@@ -5,6 +5,24 @@ cypress/downloads/
 cypress/screenshots/
 cypress/videos/
 
+# IDEs
+.idea/
+.vscode/
+
+# Java / Maven
+target/
+web-tests/target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Test reports
+allure-results/
+allure-report/
+test-output/
+xunit.xml
+
 # Logs
 logs
 *.log
