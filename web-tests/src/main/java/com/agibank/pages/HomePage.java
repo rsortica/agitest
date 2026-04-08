@@ -1,5 +1,6 @@
 package com.agibank.pages;
 
+import com.agibank.config.TestConfig;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
@@ -13,8 +14,6 @@ import java.nio.charset.StandardCharsets;
  */
 public class HomePage extends BasePage {
 
-    private static final String URL = "https://blog.agibank.com.br/";
-
     private final By searchIconButton = By.cssSelector("a[aria-label='Search button']");
     private final By searchInput = By.cssSelector("input.search-field");
 
@@ -23,12 +22,15 @@ public class HomePage extends BasePage {
     }
 
     public HomePage open() {
-        driver.get(URL);
+        driver.get(TestConfig.baseUrl());
         return this;
     }
 
     public HomePage openSearchBox() {
-        if (driver.findElements(searchInput).isEmpty()) {
+        boolean hasVisibleSearchInput = driver.findElements(searchInput).stream()
+                .anyMatch(WebElement::isDisplayed);
+
+        if (!hasVisibleSearchInput) {
             WebElement trigger = waitForClickable(searchIconButton);
             try {
                 trigger.click();
@@ -36,6 +38,7 @@ public class HomePage extends BasePage {
                 clickWithJS(trigger);
             }
         }
+
         try {
             waitForVisibility(searchInput);
         } catch (TimeoutException ignored) {
@@ -55,9 +58,26 @@ public class HomePage extends BasePage {
             input.sendKeys(term, Keys.ENTER);
         } else {
             String encodedTerm = URLEncoder.encode(term, StandardCharsets.UTF_8);
-            driver.get(URL + "?s=" + encodedTerm);
+            driver.get(TestConfig.baseUrl() + "?s=" + encodedTerm);
         }
 
         return new SearchResultsPage();
+    }
+
+    public boolean isSearchInputVisible() {
+        return driver.findElements(searchInput).stream()
+                .anyMatch(WebElement::isDisplayed);
+    }
+
+    public boolean hasSearchInputElement() {
+        return !driver.findElements(searchInput).isEmpty();
+    }
+
+    public String getVisibleSearchInputValue() {
+        return driver.findElements(searchInput).stream()
+                .filter(WebElement::isDisplayed)
+                .map(element -> element.getAttribute("value"))
+                .findFirst()
+                .orElse("");
     }
 }
