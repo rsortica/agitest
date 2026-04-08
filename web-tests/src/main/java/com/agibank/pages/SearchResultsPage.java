@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
  */
 public class SearchResultsPage extends BasePage {
 
-    // elemento de busca: a[aria-label="Search button"]
     private final By resultArticles = By.cssSelector("article.post");
     private final By resultTitles = By.cssSelector("article.post h2.entry-title a");
     private final By noResultsMessage = By.cssSelector(".no-results");
@@ -34,17 +33,14 @@ public class SearchResultsPage extends BasePage {
         return !driver.findElements(locator).isEmpty();
     }
 
-    /** true se ha ao menos um artigo na pagina de resultados */
     public boolean hasResults() {
         return hasElements(resultArticles);
     }
 
-    /** Quantidade de artigos retornados */
     public int getResultCount() {
         return driver.findElements(resultArticles).size();
     }
 
-    /** Lista com os titulos dos artigos encontrados */
     public List<String> getResultTitles() {
         if (!hasResults()) {
             return List.of();
@@ -56,17 +52,21 @@ public class SearchResultsPage extends BasePage {
                 .collect(Collectors.toList());
     }
 
-    /** true se a mensagem de "nenhum resultado" esta visivel */
     public boolean isNoResultsMessageVisible() {
         return hasElements(noResultsMessage);
     }
 
-    /** true se o campo "pesquise novamente" esta presente */
     public boolean hasSearchAgainInput() {
         return hasElements(searchAgainInput);
     }
 
-    /** Texto do cabecalho da pagina */
+    public String getSearchAgainInputValue() {
+        if (!hasSearchAgainInput()) {
+            return "";
+        }
+        return driver.findElement(searchAgainInput).getAttribute("value");
+    }
+
     public String getResultsHeadingText() {
         if (hasElements(resultsHeading)) {
             return waitForVisibility(resultsHeading).getText();
@@ -74,8 +74,15 @@ public class SearchResultsPage extends BasePage {
         return "";
     }
 
-    /** URL atual usada para verificar o parametro ?s= */
+    public boolean headingContainsTerm(String term) {
+        return getResultsHeadingText().toLowerCase().contains(term.toLowerCase());
+    }
+
     public String getCurrentUrl() {
         return driver.getCurrentUrl();
+    }
+
+    public boolean currentUrlContainsSearchTerm(String term) {
+        return getCurrentUrl().toLowerCase().contains(term.toLowerCase());
     }
 }
