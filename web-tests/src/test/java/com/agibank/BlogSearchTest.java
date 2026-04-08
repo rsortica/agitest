@@ -3,7 +3,7 @@ package com.agibank;
 import com.agibank.pages.HomePage;
 import com.agibank.pages.SearchResultsPage;
 import com.agibank.utils.ScreenshotUtil;
-import io.qameta.allure.Allure;
+import com.agibank.utils.TestEvidenceUtil;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -47,10 +47,7 @@ public class BlogSearchTest extends BaseTest {
         assertTrue(results.currentUrlContainsSearchTerm(termo),
                 "URL deve conter o termo pesquisado");
 
-        Allure.addAttachment("Qtd. resultados",
-                String.valueOf(results.getResultCount()));
-        Allure.addAttachment("Titulos encontrados",
-                String.join("\n", results.getResultTitles()));
+        attachSearchEvidence(termo, results);
     }
 
     @Test(groups = {"smoke", "regression"})
@@ -78,11 +75,16 @@ public class BlogSearchTest extends BaseTest {
                 "Campo para nova busca deveria estar presente");
         assertTrue(results.getSearchAgainInputValue().toLowerCase().contains(termoInvalido),
                 "Campo de nova busca deveria preservar o termo pesquisado");
+
+        attachSearchEvidence(termoInvalido, results);
     }
 
     @Test(groups = {"smoke", "regression"})
     @Story("Parametro de busca na URL")
     @Severity(SeverityLevel.NORMAL)
+    @Description("Dado que o usuario acessa o Blog do Agi\n"
+            + "Quando ele pesquisa por um termo como 'investimento'\n"
+            + "Entao a URL da pagina de resultados deve conter o termo pesquisado")
     public void CT03_urlDeResultados_deveConterTermoDaBusca() {
         final String termo = "investimento";
 
@@ -96,12 +98,15 @@ public class BlogSearchTest extends BaseTest {
         assertTrue(results.currentUrlContainsSearchTerm(termo),
                 "URL deve conter o termo. URL atual: " + url);
 
-        Allure.addAttachment("URL gerada", url);
+        attachSearchEvidence(termo, results);
     }
 
     @Test(groups = {"regression"})
     @Story("Multiplos resultados")
     @Severity(SeverityLevel.NORMAL)
+    @Description("Dado que o usuario acessa o Blog do Agi\n"
+            + "Quando ele pesquisa por um termo amplo como 'conta'\n"
+            + "Entao a pagina deve retornar ao menos um resultado")
     public void CT04_termoAmplo_deveRetornarAoMenosUmResultado() {
         final String termo = "conta";
 
@@ -114,13 +119,19 @@ public class BlogSearchTest extends BaseTest {
 
         assertTrue(total > 0,
                 "Esperava ao menos um resultado, encontrou: " + total);
+
+        attachSearchEvidence(termo, results);
     }
 
     @Test(groups = {"regression"})
     @Story("Feedback visual")
     @Severity(SeverityLevel.MINOR)
+    @Description("Dado que o usuario acessa o Blog do Agi\n"
+            + "Quando ele pesquisa por um termo como 'pix'\n"
+            + "Entao o cabecalho da pagina de resultados nao deve estar vazio\n"
+            + "E deve referenciar o termo pesquisado")
     public void CT05_cabecalhoDaPagina_deveReferenciarTermoPesquisado() {
-        final String termo = "emprestimo";
+        final String termo = "pix";
 
         SearchResultsPage results = new HomePage()
                 .open()
@@ -134,12 +145,15 @@ public class BlogSearchTest extends BaseTest {
         assertTrue(results.headingContainsTerm(termo),
                 "O cabecalho deveria referenciar o termo pesquisado. Texto atual: " + heading);
 
-        Allure.addAttachment("Texto do cabecalho", heading);
+        attachSearchEvidence(termo, results);
     }
 
     @Test(groups = {"regression"})
     @Story("Interacao da busca")
     @Severity(SeverityLevel.NORMAL)
+    @Description("Dado que o usuario acessa a home do Blog do Agi\n"
+            + "Quando ele abre o componente de busca\n"
+            + "Entao a pagina deve conter o componente de busca")
     public void CT06_abrirBusca_deveExibirCampoDePesquisa() {
         HomePage home = new HomePage().open();
 
@@ -152,5 +166,85 @@ public class BlogSearchTest extends BaseTest {
             assertTrue(home.getVisibleSearchInputValue().isEmpty(),
                     "O campo de busca deveria iniciar vazio");
         }
+    }
+
+    @Test(groups = {"regression"})
+    @Story("Busca direta por URL")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Dado que o usuario acessa o Blog do Agi\n"
+            + "Quando ele navega diretamente para a URL de busca com o termo 'pix'\n"
+            + "Entao a pagina deve exibir resultados para o termo informado")
+    public void CT07_buscaDiretaPorUrl_deveRetornarResultados() {
+        final String termo = "pix";
+
+        SearchResultsPage results = new HomePage()
+                .open()
+                .searchByUrl(termo);
+
+        assertTrue(results.hasResults(),
+                "A busca direta por URL deveria retornar resultados para '" + termo + "'");
+        assertTrue(results.currentUrlContainsSearchTerm(termo),
+                "A URL final deveria conter o termo pesquisado");
+
+        attachSearchEvidence(termo, results);
+    }
+
+    @Test(groups = {"regression"})
+    @Story("Normalizacao de caixa")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Dado que o usuario acessa o Blog do Agi\n"
+            + "Quando ele pesquisa por um termo em caixa alta como 'PIX'\n"
+            + "Entao a busca deve continuar retornando resultados")
+    public void CT08_buscaComCaixaAlta_deveRetornarResultados() {
+        final String termo = "PIX";
+
+        SearchResultsPage results = new HomePage()
+                .open()
+                .searchByUrl(termo);
+
+        assertTrue(results.hasResults(),
+                "A busca deveria retornar resultados mesmo em caixa alta");
+        assertTrue(results.currentUrlContainsSearchTerm("pix"),
+                "A URL final deveria conter o termo pesquisado em alguma normalizacao");
+
+        attachSearchEvidence(termo, results);
+    }
+
+    @Test(groups = {"regression"})
+    @Story("Normalizacao de espacos")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Dado que o usuario acessa o Blog do Agi\n"
+            + "Quando ele pesquisa por um termo com espacos extras como ' pix '\n"
+            + "Entao a busca deve continuar retornando resultados")
+    public void CT09_buscaComEspacosExtras_deveRetornarResultados() {
+        final String termo = " pix ";
+
+        SearchResultsPage results = new HomePage()
+                .open()
+                .searchByUrl(termo);
+
+        assertTrue(results.hasResults(),
+                "A busca deveria retornar resultados mesmo com espacos extras");
+        assertTrue(results.currentUrlContainsSearchTerm("pix"),
+                "A URL final deveria conter o termo principal pesquisado");
+
+        attachSearchEvidence(termo, results);
+    }
+
+    private void attachSearchEvidence(String termo, SearchResultsPage results) {
+        String titles = results.getResultTitles().isEmpty()
+                ? "(sem titulos)"
+                : String.join("\n", results.getResultTitles());
+
+        String content = String.format(
+                "Termo: %s%nURL: %s%nHeading: %s%nQtd. resultados: %d",
+                termo,
+                results.getCurrentUrl(),
+                results.getResultsHeadingText(),
+                results.getResultCount()
+        );
+
+        TestEvidenceUtil.attachText("Resumo da busca", content);
+        TestEvidenceUtil.attachText("Titulos encontrados", titles);
     }
 }

@@ -2,6 +2,7 @@ package com.agibank;
 
 import com.agibank.utils.DriverFactory;
 import com.agibank.utils.ScreenshotUtil;
+import com.agibank.utils.TestEvidenceUtil;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -19,7 +20,9 @@ public abstract class BaseTest {
 
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) {
-        // Captura screenshot automaticamente se o teste falhou
+        TestEvidenceUtil.attachExecutionContext(result);
+        TestEvidenceUtil.attachDriverContext();
+
         if (result.getStatus() == ITestResult.FAILURE) {
             ScreenshotUtil.captureAndAttach("FALHA - " + result.getName());
         }

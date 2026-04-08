@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Agibank Web Tests - Regression" verbose="2" parallel="none">
+
+    <test name="Blog Search Regression">
+        <groups>
+            <run>
+                <include name="regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.agibank.BlogSearchTest"/>
+        </classes>
+    </test>
+
+</suite>

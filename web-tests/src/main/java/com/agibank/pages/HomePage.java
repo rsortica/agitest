@@ -57,10 +57,15 @@ public class HomePage extends BasePage {
             input.clear();
             input.sendKeys(term, Keys.ENTER);
         } else {
-            String encodedTerm = URLEncoder.encode(term, StandardCharsets.UTF_8);
-            driver.get(TestConfig.baseUrl() + "?s=" + encodedTerm);
+            return searchByUrl(term);
         }
 
+        return new SearchResultsPage();
+    }
+
+    public SearchResultsPage searchByUrl(String term) {
+        String encodedTerm = URLEncoder.encode(term, StandardCharsets.UTF_8);
+        driver.get(TestConfig.baseUrl() + "?s=" + encodedTerm);
         return new SearchResultsPage();
     }
 
