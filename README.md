@@ -66,7 +66,7 @@ Por isso, a automação separa smoke e regression e evita asserts acoplados a de
 Execução padrão da smoke suite:
 
 ```bash
-mvn test -pl web-tests
+mvn test -pl web-tests -Dsuite.xml.file=src/test/resources/testng-smoke.xml
 ```
 
 Execução com interface gráfica:
@@ -116,5 +116,5 @@ mvn -pl web-tests allure:report
 
 - O blog atual responde em `https://blog.agibank.com.br/`.
 - O pipeline de GitHub Actions está em `.github/workflows/web-tests.yml`.
-- A execução em CI usa a smoke suite com `mvn -B -pl web-tests test -Dheadless=true`.
+- A execução em CI usa a smoke suite com `mvn -B -pl web-tests test -Dheadless=true -Dsuite.xml.file=src/test/resources/testng-smoke.xml`.
 - Os artefatos publicados pela pipeline incluem `web-tests/target/surefire-reports` e `web-tests/target/allure-results`.
