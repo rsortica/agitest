@@ -13,7 +13,7 @@
     <properties>
         <maven.compiler.release>11</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <selenium.version>4.18.1</selenium.version>
+        <selenium.version>4.39.0</selenium.version>
         <webdrivermanager.version>5.7.0</webdrivermanager.version>
         <testng.version>7.9.0</testng.version>
         <junit.version>4.13.2</junit.version>
@@ -89,6 +89,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
                 <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>web-tests/src/test/resources/testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
                     <systemPropertyVariables>
                         <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
                     </systemPropertyVariables>
