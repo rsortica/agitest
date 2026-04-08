@@ -70,4 +70,6 @@ mvn allure:report
 
 - O blog atual responde em `https://blog.agibank.com.br/`.
 - O ChromeDriver e resolvido automaticamente pelo WebDriverManager.
-- O projeto hoje nao possui workflow de GitHub Actions versionado neste repositorio.
+- O pipeline de GitHub Actions esta em `.github/workflows/web-tests.yml`.
+- A execucao em CI usa `mvn -B test -Dheadless=true`.
+- Os artefatos publicados pela pipeline incluem `target/surefire-reports` e `target/allure-results`.
